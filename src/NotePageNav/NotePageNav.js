@@ -1,32 +1,42 @@
 import React from 'react'
 import CircleButton from '../CircleButton/CircleButton'
-//navigation bar once note is clicked
-//The sidebar should display the folder of the currently selected note as well as a "back" button.
-export default function NotePageNav(props) {
-    return (
-//creates back button. eventhandler onClick goes back to history 
-<div className='NotePageNav'>
-<CircleButton
-  tag='button'
-  role='link'
-  onClick={() => props.history.goBack()}
-  className='NotePageNav__back-button'
->
+import ApiContext from '../ApiContext'
+import { findNote, findFolder } from '../NoteHelpers'
+import './NotePageNav.css'
 
-  <br />
-  Back
-</CircleButton>
-{props.folder && (
-  <h3 className='NotePageNav__folder-name'>
-    {props.folder.name}
-  </h3>
-)}
-</div>
-)
-}
-
-NotePageNav.defaultProps = {
+export default class NotePageNav extends React.Component {
+  static defaultProps = {
     history: {
-      goBack: () => {}
+      goBack: () => { }
+    },
+    match: {
+      params: {}
     }
   }
+  static contextType = ApiContext;
+
+  render() {
+    const { notes, folders, } = this.context
+    const { noteId } = this.props.match.params
+    const note = findNote(notes, noteId) || {}
+    const folder = findFolder(folders, note.folderId)
+    return (
+      <div className='NotePageNav'>
+        <CircleButton
+          tag='button'
+          role='link'
+          onClick={() => this.props.history.goBack()}
+          className='NotePageNav__back-button'
+        >
+          <br />
+          Back
+        </CircleButton>
+        {folder && (
+          <h3 className='NotePageNav__folder-name'>
+            {folder.name}
+          </h3>
+        )}
+      </div>
+    )
+  }
+}

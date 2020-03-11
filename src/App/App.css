@@ -27,7 +27,7 @@
 
 .App__main {
   grid-area: main;
-  background-color: khaki;
+  background-color: rgb(115, 110, 148);
   height: calc(100vh - 120px);
   overflow: auto;
 }
