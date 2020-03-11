@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 import './AddFolder.css'
 
 export default class AddFolder extends Component {
-  static defaultProps = {
+ //will push a new entry onto the history instead of replacing the current one.
+    static defaultProps = {
     history: {
       push: () => { }
     },
   }
+//Assign a contextType to read the current ApiContext
   static contextType = ApiContext;
 
   handleSubmit = e => {
@@ -60,9 +62,12 @@ export default class AddFolder extends Component {
     )
   }
 }
+//use defaultProps to set default values for the props argument
 AddFolder.defaultProps = {
   name: ''
 };
+// specifies that this is a required prop
+//allows for warning if left blank
 AddFolder.propTypes ={
   name: PropTypes.string.isRequired
 }
