@@ -12,18 +12,21 @@ import Error from '../ErrorBoundaries/Error'
 import './App.css'
 
 class App extends Component {
+//state will store notes and folders arrays
   state = {
     notes: [],
     folders: [],
   };
-
+//Implement two fetch requests to two endpoints when the application mounts:
   componentDidMount() {
     Promise.all([
       fetch(`${config.API_ENDPOINT}/notes`),
       fetch(`${config.API_ENDPOINT}/folders`)
     ])
       .then(([notesRes, foldersRes]) => {
+// get the error message from the response,
         if (!notesRes.ok)
+// then throw it
           return notesRes.json().then(e => Promise.reject(e))
         if (!foldersRes.ok)
           return foldersRes.json().then(e => Promise.reject(e))
@@ -40,7 +43,7 @@ class App extends Component {
         console.error({ error })
       })
   }
-
+//handlers created to update state properties
   handleAddFolder = folder => {
     this.setState({
       folders: [
@@ -49,7 +52,7 @@ class App extends Component {
       ]
     })
   }
-
+//handlers created to update state properties
   handleAddNote = note => {
     this.setState({
       notes: [
@@ -58,7 +61,7 @@ class App extends Component {
       ]
     })
   }
-
+//handlers created to update state properties
   handleDeleteNote = noteId => {
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
@@ -67,6 +70,7 @@ class App extends Component {
 
   renderNavRoutes() {
     return (
+//use Route component to render another component when a certain path is in the URL address
       <>
         {['/', '/folder/:folderId'].map(path =>
           <Route
@@ -130,6 +134,8 @@ class App extends Component {
       deleteNote: this.handleDeleteNote,
     }
     return (
+//context.provider used to update values in context and
+//pass in the updates as a prop named value
       <ApiContext.Provider value={value}>
         <div className='App'>
           <nav className='App__nav'>

@@ -6,13 +6,15 @@ import PropTypes from 'prop-types';
 import './AddNote.css'
 
 export default class AddNote extends Component {
-  static defaultProps = {
+///will push a new entry onto the history instead of replacing the current one. 
+    static defaultProps = {
     history: {
       push: () => { }
     },
   }
+  ////Assign a contextType to read the current ApiContext
   static contextType = ApiContext;
-
+//implements new note with new values
   handleSubmit = e => {
     e.preventDefault()
     const newNote = {
@@ -28,6 +30,8 @@ export default class AddNote extends Component {
       },
       body: JSON.stringify(newNote),
     })
+
+//reject parameter called when the code succeeds or fails 
       .then(res => {
         if (!res.ok)
           return res.json().then(e => Promise.reject(e))

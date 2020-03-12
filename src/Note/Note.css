@@ -11,9 +11,9 @@
   
   .Note__delete {
     --note-button-height: 32px;
-    background-color: #041a3a;
+    background-color: white;
     border: 0;
-    color: #bdbcbc;
+    color: black;
     float: right;
     font-size: 12px;
     height: var(--note-button-height);
