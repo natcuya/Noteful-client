@@ -7,7 +7,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
-    "date-fns": "^2.10.0",
+    "date-fns": "^2.11.0",
+    "date-fns-tz": "^1.0.10",
+    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
@@ -18,7 +20,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "now --prod ./build",
+    "postdeploy": "now alias -A ./build/now.json"
   },
   "eslintConfig": {
     "extends": "react-app"
