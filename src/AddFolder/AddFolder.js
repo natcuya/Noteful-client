@@ -1,73 +1,86 @@
-import React, { Component } from 'react'
-import NotefulForm from '../NotefulForm/NotefulForm'
-import ApiContext from '../ApiContext'
-import config from '../config'
-import PropTypes from 'prop-types';
+import React, {Component} from 'react'
+import ValidationError from '../ValidationError/ValidationError'
+import config from '../config';
+import ApiContext from '../ApiContext';
 import './AddFolder.css'
 
-export default class AddFolder extends Component {
- //will push a new entry onto the history instead of replacing the current one.
-    static defaultProps = {
-    history: {
-      push: () => { }
-    },
-  }
-//Assign a contextType to read the current ApiContext
-  static contextType = ApiContext;
+class AddFolder extends Component {
 
-  handleSubmit = e => {
-    e.preventDefault()
-    const folder = {
-      name: e.target['folder-name'].value
+  static contextType = ApiContext
+
+  constructor(props) {
+    super(props)
+    this.state={
+      folderName: {
+        value: '',
+        touched: false
+      }
+    }
+  }
+
+  updateFolderName(name) {
+    this.setState({folderName: {value: name, touched: true}})
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const { folderName } = this.state;
+    const folderToAdd = {
+      title: folderName.value
     }
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify(folder),
+      body: JSON.stringify(folderToAdd)
     })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
-      })
-      .then(folder => {
-        this.context.addFolder(folder)
-        this.props.history.push(`/folder/${folder.id}`)
-      })
-      .catch(error => {
-        console.error({ error })
-      })
+    .then(response => {
+      if(!response.ok){
+        return response.json().then(e=>Promise.reject(e))
+      }
+      return response.json()
+    })
+    .then((res) => {
+      const newArray = this.context.folders
+      newArray.push(res)
+      this.context.folders = newArray
+      console.log('right before addfolder pushes to landing')
+      this.props.history.push('/')
+    })
+    .catch(error => {
+      console.error(error)
+    })
+  }
+
+  validateFolderName() {
+    const name = this.state.folderName.value.trim();
+    if(name.length === 0) {
+      return 'Folder name is required'
+    } else if (name.length > 20) {
+      return 'Folder name must be less 20 characters'
+    }
   }
 
   render() {
+    const folderNameError = this.validateFolderName();
     return (
-      <section className='AddFolder'>
-        <h2>Create a folder</h2>
-        <NotefulForm onSubmit={this.handleSubmit}>
-          <div className='field'>
-            <label htmlFor='folder-name-input'>
+      <section>
+        <form className="add-folder" onSubmit={event => this.handleSubmit(event)}>
+          <h2>Create Folder</h2>
+          <div className="form-group">
+            <label htmlFor="folder-name">
               Name
             </label>
-            <input type='text' id='folder-name-input' name='folder-name' />
+            <input type="text" className="folder-input" name="folder-name" id="folder-name" onChange={e => this.updateFolderName(e.target.value)}>
+            </input>
+            {this.state.folderName.touched && <ValidationError message={folderNameError} />}
+            <button type="submit" className="add-folder-button" disabled={this.validateFolderName()}>Add Folder</button>
           </div>
-          <div className='buttons'>
-            <button type='submit'>
-              Add folder
-            </button>
-          </div>
-        </NotefulForm>
+        </form>
       </section>
     )
   }
 }
-//use defaultProps to set default values for the props argument
-AddFolder.defaultProps = {
-  name: ''
-};
-// specifies that this is a required prop
-//allows for warning if left blank
-AddFolder.propTypes ={
-  name: PropTypes.string.isRequired
-}
+
+export default AddFolder
