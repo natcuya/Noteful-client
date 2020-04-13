@@ -6,6 +6,7 @@ import config from '../config'
 import './Note.css'
 import moment from 'moment'
 
+
 class Note extends React.Component {
   static defaultProps ={
     onDeleteNote: () => {},
@@ -54,9 +55,10 @@ class Note extends React.Component {
         </button>
         <div className='Note__dates'>
           <div className='Note__dates-modified'>
-            Modified
+            Created
             {' '}
             <span className='Date'>
+              {/* {modified} */}
               {moment().format(modified, 'MMM dd yyyy')}
             </span>
           </div>
