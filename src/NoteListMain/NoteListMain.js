@@ -9,8 +9,11 @@ import config from '../config';
 
 
 export default class NoteListMain extends React.Component {
-  state = {
-    notes: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      notes: []
+    };
   }
   static defaultProps = {
     match: {
@@ -19,7 +22,7 @@ export default class NoteListMain extends React.Component {
   }
 static contextType = ApiContext;
 
-  componentDidMount() {
+componentDidMount = () => {
     fetch(`${config.API_ENDPOINT}/notes`)
       .then(notes => {
         if(!notes.ok) {
@@ -29,7 +32,7 @@ static contextType = ApiContext;
       })
       .then(notesRes => {
         if (this.state.notes.length === 0) {
-          this.setState({notes: notesRes})
+         this.setState({notes: notesRes})
          } 
       })
       .catch(error => {
