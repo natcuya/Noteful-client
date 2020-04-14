@@ -40,11 +40,13 @@ class App extends Component {
             });
     }
 
-    handleDeleteNote = noteId => {
-        this.setState({
-            notes: this.state.notes.filter(note => note.id !== noteId)
-        });
-    };
+   handleDeleteNote = noteId => {
+      console.log( this.state.notes)
+      this.setState({
+          notes: this.state.notes.filter(note => note.id !== noteId)
+       });
+      console.log( this.state.notes)
+   };
 
     renderNavRoutes() {
         return (
@@ -92,7 +94,8 @@ class App extends Component {
                     <nav className="App__nav">{this.renderNavRoutes()}</nav>
                     <header className="App__header">
                         <h1>
-                            <Link to="/">Noteful</Link>{' '}                        </h1>
+                            <Link to="/">Noteful</Link>{' '}                        
+                        </h1>
                     </header>
                     <main className="App__main">{this.renderMainRoutes()}</main>
                 </div>

@@ -17,7 +17,7 @@ export default class NoteListMain extends React.Component {
       params: {}
     }
   }
-  static contextType = ApiContext;
+static contextType = ApiContext;
 
   componentDidMount() {
     fetch(`${config.API_ENDPOINT}/notes`)
@@ -28,7 +28,9 @@ export default class NoteListMain extends React.Component {
         return notes.json()
       })
       .then(notesRes => {
-        this.setState({notes: notesRes})
+        if (this.state.notes.length === 0) {
+          this.setState({notes: notesRes})
+         } 
       })
       .catch(error => {
         console.error({error})
@@ -36,10 +38,12 @@ export default class NoteListMain extends React.Component {
   }
 
   handleDeleteNote = noteId => {
+    console.log( this.state.notes)
     this.props.history.push(`/`)
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
     });
+    console.log( this.state.notes)
   }
 
   render() {

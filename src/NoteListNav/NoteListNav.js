@@ -10,10 +10,10 @@ export default class NoteListNav extends React.Component {
 
   render() {
     const { folders=[], notes=[] } = this.context
-    // console.log(notes);
-    // folders.map(folder=> 
-    //   console.log('notes for folder: ', countNotesForFolder(notes, folder.id))
-    // );
+  //  console.log(notes);
+  //  folders.map(folder=> 
+  //   console.log('notes for folder: ', countNotesForFolder(notes, folder.id)) 
+  // );
     return (
       <div className='NoteListNav'>
         <ul className='NoteListNav__list'>
@@ -24,7 +24,7 @@ export default class NoteListNav extends React.Component {
                 to={`/folder/${folder.id}`}
               >
                 <span className='NoteListNav__num-notes'>
-                  {notes.filter(note => note.folder === Number(folder.id)).length}
+              {notes.filter(note => note.folder === Number(folder.id)).length}
                 </span>
                 {folder.title}
               </NavLink>
