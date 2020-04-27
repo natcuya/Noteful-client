@@ -43,8 +43,7 @@ class AddNote extends React.Component {
       title: title.value,
       content: content.value,
       folder: Number(folder.value),
-      modified: new Date(),
-      date_created: new Date()
+      modified: new Date()
     }
     fetch(`${config.API_ENDPOINT}/notes`, {
       method: 'POST',

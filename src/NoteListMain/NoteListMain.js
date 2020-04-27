@@ -62,7 +62,6 @@ componentDidMount = () => {
                 id={note.id}
                 name={note.title}
                 modified={note.modified}
-                date_created={note.date_created}
                 onDeleteNote={this.handleDeleteNote}
               />
             </li>
