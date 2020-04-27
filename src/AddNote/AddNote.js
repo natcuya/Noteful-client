@@ -57,11 +57,11 @@ class AddNote extends React.Component {
       if(!response.ok){
         return response.json().then(e=>Promise.reject(e))
       }
-      return response;
+      return response.json();
     })
     .then((res)  => {
       const newArray = this.context.notes
-      newArray.push(noteToAdd);
+      newArray.push(res);
       this.context.notes = newArray
       console.log('right before addnote pushes to landing')
       this.props.history.push('/')
@@ -143,3 +143,5 @@ class AddNote extends React.Component {
 }
 
 export default AddNote
+
+/* I think it's because in NoteListMain, in your componentDidMount, you're setting your notes to the state in that component. and in NoteListNav, you're calling notes from context. and since the context wasn't updated, then the number wouldn't change */
