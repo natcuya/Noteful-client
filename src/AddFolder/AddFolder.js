@@ -38,11 +38,11 @@ class AddFolder extends Component {
       },
       body: JSON.stringify(folder)
     })
-    .then(response => {
-      if(!response.ok){
-        return response.json().then(e=>Promise.reject(e))
+    .then(res => {
+      if(!res.ok){
+        return res.json().then(e=>Promise.reject(e))
       }
-      return response.json()
+      return res.json()
     })
     .then((res) => {
         console.log(folder);

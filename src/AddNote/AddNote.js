@@ -52,10 +52,11 @@ class AddNote extends React.Component {
       },
       body: JSON.stringify(noteToAdd)
     })
-    .then(response => {
-      if(!response.ok)
-        return response.json().then(e=>Promise.reject(e))
-      return response.json()
+    .then(res => {
+      console.log(res.body)
+      if(!res.ok)
+        return res.json().then(e=>Promise.reject(e))
+      return res.json()
     })
     .then(note  => {
       //const newArray = this.context.notes
