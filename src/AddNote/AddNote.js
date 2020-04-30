@@ -53,17 +53,18 @@ class AddNote extends React.Component {
       body: JSON.stringify(noteToAdd)
     })
     .then(response => {
-      if(!response.ok){
+      if(!response.ok)
         return response.json().then(e=>Promise.reject(e))
-      }
-      return response.json();
+      return response.json()
     })
-    .then((res)  => {
-      const newArray = this.context.notes
-      newArray.push(res);
-      this.context.notes = newArray
+    .then(note  => {
+      //const newArray = this.context.notes
+     // newArray.push(res);
+      //this.context.notes = newArray
       console.log('right before addnote pushes to landing')
-      this.props.history.push('/')
+      this.context.addNote(note)
+      this.props.history.push(`/folder/${note.folderId}`)
+    //  this.props.history.push('/')
     })
     .catch(error => {
       console.error(error)

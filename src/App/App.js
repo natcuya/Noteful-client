@@ -39,7 +39,21 @@ class App extends Component {
                 console.error({error});
             });
     }
-
+    handleAddNote = note => {
+        const newNotesArr = this.state.notes.slice();
+        newNotesArr.push(note);
+        this.setState({
+          notes: newNotesArr
+        });
+      }
+    
+      handleAddFolder = folder => {
+        const newFolderArr = this.state.folders.slice();
+        newFolderArr.push(folder);
+        this.setState({
+          folders: newFolderArr
+        });
+      }
    handleDeleteNote = noteId => {
       console.log( this.state.notes)
       this.setState({
@@ -86,7 +100,9 @@ class App extends Component {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
-            deleteNote: this.handleDeleteNote
+            deleteNote: this.handleDeleteNote,
+            addFolder: this.handleAddFolder,
+            addNote: this.handleAddNote
         };
         return (
             <ApiContext.Provider value={value}>

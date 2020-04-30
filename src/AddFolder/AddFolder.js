@@ -24,16 +24,19 @@ class AddFolder extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { folderName } = this.state;
-    const folderToAdd = {
-      title: folderName.value
+    const folder = {
+      name: event.target['folder-name'].value
     }
+  //  const { folderName } = this.state;
+   // const folderToAdd = {
+   //   title: folderName.value
+  //  }
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify(folderToAdd)
+      body: JSON.stringify(folder)
     })
     .then(response => {
       if(!response.ok){
@@ -42,11 +45,14 @@ class AddFolder extends Component {
       return response.json()
     })
     .then((res) => {
-      const newArray = this.context.folders
-      newArray.push(res)
-      this.context.folders = newArray
-      console.log('right before addfolder pushes to landing')
-      this.props.history.push('/')
+        console.log(folder);
+        this.context.addFolder(folder)
+        this.props.history.push(`/folder/${folder.id}`)
+     // const newArray = this.context.folders
+     // newArray.push(res)
+    //  this.context.folders = newArray
+     // console.log('right before addfolder pushes to landing')
+    //  this.props.history.push('/')
     })
     .catch(error => {
       console.error(error)
